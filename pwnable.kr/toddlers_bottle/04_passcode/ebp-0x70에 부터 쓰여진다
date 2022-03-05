@@ -1,0 +1,6 @@
+ebp-0x70에 부터 쓰여진다
+
+edx에 ebp-0x70 = ebp-112
+esp+4에 edx
+esp에 eax
+printf ()
