@@ -2,13 +2,12 @@
 
 using namespace std;
 
-// plist 최대가 1024인 점에 유의! (path compression 할때 쓰는 것) 
-// 이것은 thread safe 하지 않음!
 class DisjointSet{
 public:
 	DisjointSet(int _V) : V(_V) {
 		parent.resize(V);
 		size.resize(V);
+		plist.resize(V);
 		for(int i=0; i<V; ++i){
 			parent[i] = i;
 			size[i] = 1;
@@ -49,7 +48,7 @@ private:
 	int V;
 	vector<int> parent;
 	vector<int> size;
-	int plist[1024];
+	vector<int> plist;
 };
 
 int main(int argc, char** argv){
