@@ -89,5 +89,5 @@ int main(int argc, char** argv){
     int source = 0;
     int sink = 0;
 
-    ford_fulkerson(adj, capacity, flow, source, sink);
+    ford_fulkerson(adj, source, sink);
 }
