@@ -6,7 +6,7 @@ import sys
 import random
 
 NUM_CASES = 100
-N = 10000
+N = 80000
 K = 8000
 NEED_CORRECT = 90
 

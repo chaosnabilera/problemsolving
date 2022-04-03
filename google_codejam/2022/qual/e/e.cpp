@@ -62,42 +62,46 @@ void simple_solve(){
 }
 
 void estimation_solve(){
-    unordered_set<int> not_visited;
-    vector<int> edge_history;
+    vector<int> hT;
+    vector<double> hW; 
+    vector<bool> visited(N+1,false);
     RNG32<int> rng(1,N);
-    int room, edges;
-    int rn;
+    int T, W, A, B;
 
-    for(int i=1; i<=N; ++i)
-        not_visited.insert(i);
+    scanf("%d%d", &T, &A);
+    hT.push_back(A);
+    hW.push_back(1.0);
+    visited[T] = true;
 
-    scanf("%d%d", &room, &edges);
-    edge_history.push_back(edges);
     for(int k=0; k<K; ++k){
-        if((not_visited.find(room) == not_visited.end()) || edges < 5){
-            int rn = *not_visited.begin();
-            printf("T %d\n",rn); fflush(stdout);
-            // fprintf(stderr,"T\n");
+        if((k&1) == 0){
+            do{
+                T = rng();
+            } while(visited[T]);
+            printf("T %d\n", T); fflush(stdout);
+            scanf("%d%d",&T,&A);
+            visited[T] = true;
+            hT.push_back(A);
+            hW.push_back(1.0);
         }
         else{
             printf("W\n"); fflush(stdout);
-            // fprintf(stderr,"W\n");
+            scanf("%d%d",&W,&B);
+            visited[W] = true;
+            hT.push_back(B);
+            hW.push_back(((double)A)/((double)B));
         }
-
-        if(not_visited.find(room) != not_visited.end())
-            not_visited.erase(room);
-
-        scanf("%d%d", &room, &edges);
-        edge_history.push_back(edges);
     }
 
-    double edge_sum = 0;
-    for(int e:edge_history)
-        edge_sum += e;
+    double wtsum = 0;
+    double wsum = 0;
+    for(int i=0; i<hT.size(); ++i){
+        wtsum += hW[i] * hT[i];
+        wsum += hW[i];
+    }
+    double edge_avg = wtsum/wsum;
+    unsigned long long total_cnt = (unsigned long long)(edge_avg * N * 0.5);
 
-    double edge_avg = edge_sum / edge_history.size();
-    unsigned long long total_cnt = edge_avg * N * 0.5;
-    
     // fprintf(stderr,"adjusted_avg:%lf adjusted_cnt:%d\n",adjusted_avg,adjusted_cnt);
     printf("E %llu\n", total_cnt); fflush(stdout);
 }
